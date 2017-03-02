@@ -21,7 +21,7 @@ if method == "dfs":
 	dfsFindPath(initialState)
 if method == "bfs":
 	bfsFindPath(initialState)
-
-# connectedStates = initialGameState.getConnectedStates()
-# for index in range(len(connectedStates)):
-# 	print connectedStates[index]
+if method == "ast":
+	bfsFindPath(initialState)
+if method == "ida":
+	bfsFindPath(initialState)
