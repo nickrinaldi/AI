@@ -1,16 +1,22 @@
 from game_state import GameState
 
 def dfsFindPath(initialState):
-	visitedStatesSet = set([initialState])
+	exploredStatesSet = set()
+	frontierStatesSet = set([initialState])
 	visitedFromDict = {}
 	dfsStack = [initialState]
 
 	while len(dfsStack) > 0:
 		currentState = dfsStack.pop()
+		exploredStatesSet.add(currentState)
+
+		if currentState in frontierStatesSet:
+			frontierStatesSet.remove(currentState)
 		
 		if currentState.isGoalState():
 			# we finished the puzzle
 			pathToGoal(visitedFromDict, initialState, currentState)
+			print "nodes_expanded: ", len(exploredStatesSet)
 			return
 
 		connectedStates = currentState.getConnectedStates()
@@ -18,8 +24,8 @@ def dfsFindPath(initialState):
 		# reverse connectedStates to preserve UDLR visitation
 
 		for connectedState in connectedStates:
-			if connectedState[0] not in visitedStatesSet:
-				visitedStatesSet.add(connectedState[0])
+			if connectedState[0] not in frontierStatesSet and connectedState[0] not in exploredStatesSet:
+				frontierStatesSet.add(connectedState[0])
 				visitedFromDict[connectedState[0]] = (currentState, connectedState[1])
 				dfsStack.append(connectedState[0])
 
