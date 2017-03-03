@@ -6,6 +6,7 @@ from ast import literal_eval
 from game_state import GameState
 from dfs import dfsFindPath
 from bfs import bfsFindPath
+from astSearch import astSearchFindPath
 
 if (len(sys.argv) != 3) :
 	print "incorrect arguments"
@@ -22,6 +23,6 @@ if method == "dfs":
 if method == "bfs":
 	bfsFindPath(initialState)
 if method == "ast":
-	bfsFindPath(initialState)
+	astSearchFindPath(initialState)
 if method == "ida":
 	bfsFindPath(initialState)

@@ -77,3 +77,20 @@ class GameState(object):
 
 	def __hash__(self):
 		return hash(self.state)
+
+	def heuristic(self):
+		# manhattan distance
+		totalDistance = 0
+
+		for index in range(len(self.state)):
+			if self.state[index] != index and self.state[index] != 0:
+				xDistance = abs((self.state[index] % self.dimension) -
+					(index % self.dimension))
+				yDistance = abs((self.state[index] // self.dimension) -
+					(index // self.dimension))
+				totalDistance += (xDistance + yDistance)
+
+		return totalDistance
+
+	def __cmp__(self, other):
+		return cmp(self.heuristic(), other.heuristic())

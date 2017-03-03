@@ -20,6 +20,9 @@ def bfsFindPath(initialState):
 		if currentState in fringeSet:
 			fringeSet.remove(currentState)
 
+		if maxSearchDepth < searchDepth:
+			maxSearchDepth = searchDepth
+
 		if currentState.isGoalState():
 			endTime = time.time()
 			output(visitedByDict, initialState, currentState, len(exploredSet), len(fringeSet),
@@ -37,9 +40,6 @@ def bfsFindPath(initialState):
 
 		if maxFringeSize < len(fringeSet):
 			maxFringeSize = len(fringeSet)
-
-		if maxSearchDepth < searchDepth:
-			maxSearchDepth = searchDepth
 
 	# if we reach this far in execution, the goal state is unobtainable
 	print "unobtainable goal state"
