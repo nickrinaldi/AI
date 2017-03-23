@@ -7,6 +7,7 @@ from game_state import GameState
 from dfs import dfsFindPath
 from bfs import bfsFindPath
 from astSearch import astSearchFindPath
+from idastSearch import idastSearchFindPath
 
 if (len(sys.argv) != 3) :
 	print "incorrect arguments"
@@ -25,4 +26,4 @@ if method == "bfs":
 if method == "ast":
 	astSearchFindPath(initialState)
 if method == "ida":
-	bfsFindPath(initialState)
+	idastSearchFindPath(initialState)
