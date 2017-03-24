@@ -27,15 +27,15 @@ def edgeHeuristic(grid):
 		(value, pos) = heapq.heappop(minHeap)
 
 		# check if the max value is in the corner
-		if i == 4:
+		if i == len(minHeap) - 1:
 			if pos[0] == 0 and pos[1] == 0:
-				result += 1
+				result += 10
 			elif pos[0] == 0 and pos[1] == 4:
-				result += 1
+				result += 10
 			elif pos[0] == 4 and pos[1] == 0:
-				result += 1
+				result += 10
 			elif pos[0] == 4 and pos[1] == 4:
-				result += 1
+				result += 10
 
 		if pos[0] == 0 or pos[0] == 4 or pos[1] == 0 or pos[1] == 4:
 			result += 1
