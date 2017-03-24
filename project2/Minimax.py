@@ -3,6 +3,8 @@ import math
 import time
 from StateEvaluator import evaluate
 
+# TODO: check to make sure we don't visit states multiple times
+
 def minimize(grid, alpha, beta, depth, startTime):
 
 	emptyCells = grid.getAvailableCells()
