@@ -5,7 +5,7 @@ from StateEvaluator import evaluate
 
 # TODO: check to make sure we don't visit states multiple times
 
-def minimize(grid, alpha, beta, depth, startTime):
+def minimize(grid, alpha, beta, exploredStates, depth, startTime):
 
 	emptyCells = grid.getAvailableCells()
 	possibleNewTiles = [2, 4]
@@ -25,11 +25,23 @@ def minimize(grid, alpha, beta, depth, startTime):
 			# get the current child
 			child = grid.clone()
 			child.insertTile(emptyCell, possibleNewTile)
-			# get the evaulated value of the child state
-			(_, childUtility, timeout) = maximize(child, alpha, beta, depth - 1, startTime)
 
-			if timeout:
-				return (minUtility, True)
+			childUtility = None
+
+			if child not in exploredStates:
+
+				# get the evaulated value of the child state
+				(_, childUtility, timeout) = maximize(child, alpha, beta,
+					exploredStates, depth - 1, startTime)
+
+				if timeout:
+					return (None, True)
+
+				exploredStates[child] = childUtility
+			
+			else:
+				childUtility = exploredStates[child]
+				print "we've explored this state before"
 
 			if childUtility < minUtility:
 				minUtility = childUtility
@@ -43,7 +55,7 @@ def minimize(grid, alpha, beta, depth, startTime):
 
 	return (minUtility, False)
 
-def maximize(grid, alpha, beta, depth, startTime):
+def maximize(grid, alpha, beta, exploredStates, depth, startTime):
 
 	availableMoves = grid.getAvailableMoves()
 	# terminal test
@@ -53,7 +65,7 @@ def maximize(grid, alpha, beta, depth, startTime):
 
 	# if we are out of time
 	if time.clock() - startTime > 0.08:
-		return (None, grid.getMaxTile(), True)
+		return (None, None, True)
 
 	(bestMove, maxUtility) = (None, float("-inf"))
 
@@ -61,11 +73,23 @@ def maximize(grid, alpha, beta, depth, startTime):
 		# get the current child
 		child = grid.clone()
 		child.move(move)
-		# get the evaulated value of the child state
-		(childUtility, timeout) = minimize(child, alpha, beta, depth - 1, startTime)
 
-		if timeout:
-			return (None, maxUtility, True)
+		childUtility = None
+
+		if child not in exploredStates:
+
+			# get the evaulated value of the child state
+			(childUtility, timeout) = minimize(child, alpha, beta,
+				exploredStates, depth - 1, startTime)
+
+			if timeout:
+				return (None, maxUtility, True)
+
+			exploredStates[child] = childUtility
+
+		else:
+			childUtility = exploredStates[child]
+			print "we've explored this state before"
 
 		if childUtility > maxUtility:
 				maxUtility = childUtility
